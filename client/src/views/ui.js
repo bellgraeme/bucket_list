@@ -12,7 +12,7 @@ UI.prototype = {
   render: function(countries){
     var container = document.querySelector('#all-countries');
 
-    countries.forEach(function(){
+    countries.forEach(function(country){
       var option = document.createElement('option');
       option.innerText = country.name
       container.appendChild(option)

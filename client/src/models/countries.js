@@ -9,7 +9,7 @@ Countries.prototype = {
     request.send();
   },
 
-  all: function(){
+  all: function(callback){
     this.makeRequest("https://restcountries.eu/rest/v2/all", function(){
       if (this.status !== 200) return;
       var jsonString = this.responseText;
