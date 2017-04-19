@@ -1,19 +1,21 @@
 var Countries = require('../models/countries');
+var SavedCountries = require('../models/savedCountries');
+
 
 var UI = function(){
-  var countries = new Countries();
 
-  countries.all(function(countries){
+  this.selectedCountry = null;
+
+  this.countries = new Countries();
+  var savedCountries = new SavedCountries();
+
+  this.countries.all(function(countries){
     this.render(countries);
-
-    var addButton = document.querySelector('#add-country');
-    addButton.addEventListener('click', function(){
-      var select = document.querySelector("#all-countries");
-      var index = select.options[select.selectedIndex].value;
-      
-    })
-
   }.bind(this));
+
+  savedCountries.all(function(dbCountries){
+    this.populateList(dbCountries);
+  }.bind(this))
 }
 
 UI.prototype = {
@@ -23,12 +25,31 @@ UI.prototype = {
     countries.forEach(function(country, index){
       var option = document.createElement('option');
       option.innerText = country.name
-      option.value = index;
+      option.value = JSON.stringify(country);
       container.appendChild(option)
     })
+  var self =this
+    container.onchange = function(e){
+      self.selectedCountry = this.value;
+    };
 
+    var button = document.querySelector('#add-country');
+    button.onclick = function(){
+      this.countries.makePostRequest("http://localhost:3000/api/countries", this.selectedCountry, function(savedCountries){ this.populateList(savedCountries)
+      }.bind(this) )
+    }.bind(this);
+  },
 
+  populateList: function(savedCountries){
+    var container = document.querySelector('#countries-list')
+    savedCountries.forEach(function(savedCountry){
+      var li = document.createElement('li');
+      li.innerText = savedCountry.name;
+      container.appendChild(li);
+    })
+    
   }
+
 }
 
 module.exports = UI;

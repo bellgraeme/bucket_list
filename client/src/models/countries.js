@@ -16,6 +16,17 @@ Countries.prototype = {
       var results = JSON.parse(jsonString);
       callback(results);
     })
+  },
+  makePostRequest: function(url, country, callback){
+    var request = new XMLHttpRequest();
+    request.open("POST", url);
+    request.onload = function(){
+      if (this.status !== 200) return;
+      var jsonString = this.responseText;
+      var results = JSON.parse(jsonString);
+      callback(results);
+    };
+    request.send(country);
   }
 
 }
