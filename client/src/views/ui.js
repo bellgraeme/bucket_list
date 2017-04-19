@@ -42,6 +42,7 @@ UI.prototype = {
 
   populateList: function(savedCountries){
     var container = document.querySelector('#countries-list')
+    container.innerHTML = ''
     savedCountries.forEach(function(savedCountry){
       var li = document.createElement('li');
       li.innerText = savedCountry.name;

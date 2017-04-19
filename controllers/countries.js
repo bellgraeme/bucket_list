@@ -13,7 +13,7 @@ countryRouter.get('/', function(req, res){
 });
 
 countryRouter.post('/',function(req, res){
-  console.log(req.body)
+  console.log(req)
   listQuery.add(req.body, function(countries){
     res.json(countries)  
   })

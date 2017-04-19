@@ -20,6 +20,7 @@ Countries.prototype = {
   makePostRequest: function(url, country, callback){
     var request = new XMLHttpRequest();
     request.open("POST", url);
+    request.setRequestHeader('Content-Type', 'application/json')
     request.onload = function(){
       if (this.status !== 200) return;
       var jsonString = this.responseText;
